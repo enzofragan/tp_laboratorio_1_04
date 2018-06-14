@@ -124,14 +124,9 @@ int al_deleteArrayList(ArrayList* this)
 int al_len(ArrayList* this)
 {
     int returnAux = -1;
-    int aux;
     if(this!=NULL)
     {
-        aux = this->size;
-        if(aux>0)
-        {
-            returnAux=aux;
-        }
+        returnAux = this->size;
     }
 
     return returnAux;
