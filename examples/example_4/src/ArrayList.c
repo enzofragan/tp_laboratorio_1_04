@@ -142,6 +142,10 @@ int al_len(ArrayList* this)
 void* al_get(ArrayList* this, int index)
 {
     void* returnAux = NULL;
+    if(this!=NULL && this->pElements[index]!=NULL && index<al_len(this))
+    {
+        returnAux=this->pElements[index];
+    }
 
     return returnAux;
 }
@@ -164,7 +168,6 @@ int al_contains(ArrayList* this, void* pElement)
         returnAux=0;
         for(i=0;i<this->size;i++)
         {
-
             if(this->pElements[i]==pElement)
             {
                 returnAux=1;
@@ -186,7 +189,24 @@ int al_contains(ArrayList* this, void* pElement)
 int al_set(ArrayList* this, int index,void* pElement)
 {
     int returnAux = -1;
+    int espacio;
 
+    if(this!=NULL && pElement!=NULL && index>=0)
+    {
+        espacio=al_len(this);
+
+        if(index==espacio)
+        {
+            al_add(this,pElement);
+               returnAux=0;
+        }
+        else if(index<espacio)
+        {
+            this->pElements[index]=pElement;
+            returnAux=0;
+        }
+
+    }
     return returnAux;
 }
 
@@ -200,6 +220,18 @@ int al_set(ArrayList* this, int index,void* pElement)
 int al_remove(ArrayList* this,int index)
 {
     int returnAux = -1;
+    int remo;
+    if(this!=NULL)
+    {
+        if(index<al_len(this) && index>=0)
+        {
+            remo=contract(this,index);
+            if(remo==0)
+            {
+                returnAux=0;
+            }
+        }
+    }
 
     return returnAux;
 }
@@ -214,6 +246,13 @@ int al_remove(ArrayList* this,int index)
 int al_clear(ArrayList* this)
 {
     int returnAux = -1;
+    if(this!=NULL && this->pElements!=NULL)
+    {
+        this->size=0;
+        this->reservedSize=AL_INITIAL_VALUE;
+        this->pElements=(void**) malloc(sizeof(void*)*AL_INITIAL_VALUE);
+        returnAux=0;
+    }
 
     return returnAux;
 }
