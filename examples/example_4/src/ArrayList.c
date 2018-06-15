@@ -285,6 +285,13 @@ int al_push(ArrayList* this, int index, void* pElement)
 {
     int returnAux = -1;
 
+    if(this!=NULL && pElement!=NULL)
+    {
+        if(al_set(this,index,pElement)==0)
+        {
+            returnAux=0;
+        }
+    }
     return returnAux;
 }
 
