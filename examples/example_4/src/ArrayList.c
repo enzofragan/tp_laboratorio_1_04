@@ -144,7 +144,8 @@ int al_len(ArrayList* this)
 void* al_get(ArrayList* this, int index)
 {
     void* returnAux = NULL;
-    if(this!=NULL && *(this->pElements+index)!=NULL && index<al_len(this))
+   /// if(this!=NULL && *(this->pElements+index)!=NULL && index<al_len(this))
+        if(this!=NULL && *(this->pElements+index)!=NULL && index<this->len(this))
     ///si la lista no es nula y elemento de esa lista en la posicion deseada(index) no es nulo Y la posicion es menor al tamaño de la lista
     {
         returnAux=*(this->pElements+index);///retorna el elemento de esa posicion
@@ -169,7 +170,7 @@ int al_contains(ArrayList* this, void* pElement)
     if(this!=NULL && pElement!=NULL)
     {
         returnAux=0;
-        for(i=0;i<this->size;i++)
+        for(i=0;i<this->len(this);i++)
         {
             if(*(this->pElements+i)==pElement)
             {
@@ -196,7 +197,7 @@ int al_set(ArrayList* this, int index,void* pElement)
 
     if(this!=NULL && pElement!=NULL && index>=0)
     {
-        espacio=al_len(this);
+        espacio=this->len(this);
 
         if(index==espacio)
         {
@@ -226,7 +227,7 @@ int al_remove(ArrayList* this,int index)
     int remo;
     if(this!=NULL)
     {
-        if(index<al_len(this) && index>=0)
+        if(index<this->len(this) && index>=0)
         {
             remo=contract(this,index);
             if(remo==0)
@@ -278,7 +279,7 @@ ArrayList* al_clone(ArrayList* this)
         returnAux=al_newArrayList();
         if(returnAux!=NULL)
         {
-            for(i=0;i<al_len(this);i++)
+            for(i=0;i<this->len(this);i++)
             {
                 if(resizeUp(returnAux)==0)
                 {
@@ -330,7 +331,7 @@ int al_indexOf(ArrayList* this, void* pElement)
 
     if(this!=NULL && pElement!=NULL)
     {
-        for(i=0;i<al_len(this);i++)
+        for(i=0;i<this->len(this);i++)
         {
             if(*(this->pElements+i)==pElement)
             {
@@ -355,7 +356,7 @@ int al_isEmpty(ArrayList* this)
 
     if(this!=NULL)
     {
-        lista=al_len(this);
+        lista=this->len(this);
 
         if(lista==0)
         {
@@ -383,7 +384,7 @@ void* al_pop(ArrayList* this,int index)
 {
     void* returnAux = NULL;
 
-    if(this!=NULL && this->pElements!=NULL && index<al_len(this) && index>=0)
+    if(this!=NULL && this->pElements!=NULL && index<this->len(this) && index>=0)
     {
         returnAux=*(this->pElements + index);
         contract(this,index);
@@ -407,7 +408,7 @@ ArrayList* al_subList(ArrayList* this,int from,int to)
     int i;
     ArrayList* auxElement = NULL;
 
-    if(this!=NULL && from>=0 && from<=to && to<=al_len(this))
+    if(this!=NULL && from>=0 && from<=to && to<=this->len(this))
     {
         auxElement=al_newArrayList();
         if(auxElement!=NULL)
@@ -445,7 +446,7 @@ int al_containsAll(ArrayList* this,ArrayList* this2)
 
     if(this!=NULL && this2!=NULL)
     {
-        for(i=0;i<al_len(this);i++)
+        for(i=0;i<this->len(this);i++)
         {
             for(j=0;j<al_len(this2);j++)
             {
@@ -488,9 +489,9 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 
     if(this!=NULL && pFunc!=NULL && (order==0 || order==1))
     {
-        for(i=0;i<al_len(this)-1;i++)
+        for(i=0;i<this->len(this)-1;i++)
         {
-            for(j=i+1;j<al_len(this);j++)
+            for(j=i+1;j<this->len(this);j++)
             {
                 pEA=this->get(this,i);
                 pEB=this->get(this,j);
@@ -556,7 +557,7 @@ int resizeUp(ArrayList* this)
  * \return int Return (-1) if Error [pList is NULL pointer or invalid index]
  *                  - ( 0) if Ok
  */
-int expand(ArrayList* this,int index)
+int expand(ArrayList* this,int index)///desde un indice expande el tamaño
 {
     int returnAux = -1;
     int i;
@@ -566,7 +567,7 @@ int expand(ArrayList* this,int index)
         this->size+=1;
         resizeUp(this);
 
-        for(i=al_len(this);i<index;i--)
+        for(i=this->len(this);i<index;i--)
         {
             *(this->pElements+i)=*(this->pElements+i-1);
         }
@@ -589,7 +590,7 @@ int contract(ArrayList* this,int index)
 
     if(this!=NULL && this->pElements!=NULL)
     {
-        for(i=index;i<al_len(this);i++)
+        for(i=index;i<this->len(this);i++)
         {
             *(this->pElements+i)=*(this->pElements+i+1);
         }
