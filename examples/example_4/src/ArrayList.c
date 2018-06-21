@@ -448,7 +448,7 @@ int al_containsAll(ArrayList* this,ArrayList* this2)
     {
         for(i=0;i<this->len(this);i++)
         {
-            for(j=0;j<al_len(this2);j++)
+            for(j=0;j<this2->len(this2);j++)
             {
                 if(*(this->pElements+i)==*(this2->pElements+j))
                 {
